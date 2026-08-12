@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스포츠 영상·웹툰 제작 — 오리엔테이션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FDFDFB;
+    --ink:#23281F;
+    --sub:#5A6152;
+    --green:#2F5D46;
+    --line:#D9D6CC;
+    --wash:#F3F2EC;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    font-family:'IBM Plex Sans KR',sans-serif;
+    background:#E9E7E0;
+    color:var(--ink);
+    overflow:hidden;
+  }
+  .serif{font-family:'Gowun Batang',serif;}
+
+  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:2.5vmin;}
+  .slide{
+    display:none;
+    width:min(96vw,170vh);
+    aspect-ratio:16/9;
+    background:var(--paper);
+    border:1px solid var(--line);
+    box-shadow:0 18px 50px rgba(35,40,31,.14);
+    position:relative;
+    overflow:hidden;
+    padding:6% 7% 5.5%;
+    flex-direction:column;
+  }
+  .slide.active{display:flex;animation:fadeIn .4s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){.slide.active{animation:none;}}
+
+  /* 상단 헤더 라인 */
+  .head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1.6vmin;margin-bottom:4vmin;
+  }
+  .head .label{
+    font-size:clamp(13px,1.9vmin,20px);font-weight:700;color:var(--green);
+    letter-spacing:.12em;
+  }
+  .head .no{
+    font-size:clamp(13px,1.9vmin,20px);color:var(--sub);letter-spacing:.08em;
+  }
+
+  h1{font-size:clamp(34px,8vmin,92px);line-height:1.3;font-weight:700;}
+  h2{font-size:clamp(26px,5.4vmin,62px);line-height:1.35;font-weight:700;margin-bottom:3.6vmin;}
+  h2 em{font-style:normal;color:var(--green);}
+  .lead{font-size:clamp(16px,2.8vmin,30px);line-height:1.75;color:var(--ink);max-width:30em;}
+  .lead b{color:var(--green);}
+
+  /* 밑줄 강조 */
+  u.hl{
+    text-decoration:none;
+    background:linear-gradient(transparent 62%, #DCE8DF 62%);
+  }
+
+  /* 리스트형 항목 */
+  .items{display:flex;flex-direction:column;flex:1;justify-content:center;}
+  .item{
+    display:grid;grid-template-columns:auto 1fr;gap:3.2vmin;align-items:baseline;
+    padding:2.8vmin 0;border-bottom:1px solid var(--line);
+  }
+  .item:last-child{border-bottom:none;}
+  .item .n{
+    font-family:'Gowun Batang',serif;font-weight:700;
+    font-size:clamp(20px,3.6vmin,42px);color:var(--green);min-width:1.6em;
+  }
+  .item .t{font-size:clamp(19px,3.3vmin,38px);font-weight:700;line-height:1.4;}
+  .item .d{font-size:clamp(14px,2.2vmin,24px);color:var(--sub);line-height:1.65;margin-top:.6vmin;}
+
+  /* 2단 비교 */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:3.5vmin;flex:1;align-content:center;}
+  .box{
+    border:1px solid var(--line);background:var(--paper);
+    padding:3.6vmin 3.8vmin;display:flex;flex-direction:column;gap:1.6vmin;
+  }
+  .box.tint{background:var(--wash);border-color:#C9CFC2;}
+  .box .cap{font-size:clamp(12px,1.8vmin,19px);font-weight:700;color:var(--green);letter-spacing:.1em;}
+  .box .bt{font-family:'Gowun Batang',serif;font-size:clamp(20px,3.6vmin,42px);font-weight:700;line-height:1.4;}
+  .box .bd{font-size:clamp(14px,2.2vmin,24px);color:var(--sub);line-height:1.7;}
+
+  /* 하단 정리 문장 */
+  .foot{
+    margin-top:auto;padding-top:2.6vmin;border-top:1px solid var(--line);
+    font-size:clamp(15px,2.4vmin,26px);line-height:1.6;
+  }
+  .foot b{color:var(--green);}
+
+  /* ---------- 개별 슬라이드 ---------- */
+
+  /* 1 표지 */
+  #s1{justify-content:center;}
+  #s1 .rule{width:8vmin;height:3px;background:var(--green);margin:4vmin 0;}
+  #s1 .kind{font-size:clamp(14px,2.2vmin,24px);font-weight:700;color:var(--green);letter-spacing:.28em;margin-bottom:2.4vmin;}
+  #s1 .meta{font-size:clamp(14px,2.2vmin,24px);color:var(--sub);line-height:2;}
+
+  /* 2 훅 */
+  #s2 .mediabox{
+    flex:1;border:1px solid var(--line);background:var(--wash);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2.4vmin;
+    margin-bottom:3.4vmin;
+  }
+  #s2 .play{
+    width:9vmin;height:9vmin;border-radius:50%;border:2px solid var(--green);
+    display:flex;align-items:center;justify-content:center;background:var(--paper);
+  }
+  #s2 .play::after{content:"";border-style:solid;border-width:1.9vmin 0 1.9vmin 3vmin;
+    border-color:transparent transparent transparent var(--green);margin-left:.6vmin;}
+  #s2 .hint{font-size:clamp(13px,2vmin,22px);color:var(--sub);}
+
+  /* 3 자유학기 */
+  #s3{justify-content:center;}
+  #s3 .q{font-family:'Gowun Batang',serif;font-size:clamp(28px,6vmin,70px);font-weight:700;line-height:1.4;}
+  #s3 .a{margin-top:4.5vmin;padding-left:4vmin;border-left:3px solid var(--green);}
+  #s3 .a .big{font-family:'Gowun Batang',serif;font-size:clamp(22px,4.4vmin,52px);font-weight:700;line-height:1.5;}
+  #s3 .a p{margin-top:1.8vmin;font-size:clamp(15px,2.5vmin,27px);color:var(--sub);line-height:1.75;max-width:30em;}
+
+  /* 5 과정 */
+  #s5 .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:2vmin;align-items:stretch;margin-bottom:3.2vmin;}
+  #s5 .step{border:1px solid var(--line);padding:3vmin 2.4vmin;text-align:center;background:var(--paper);}
+  #s5 .step.core{background:var(--wash);border-color:#C9CFC2;}
+  #s5 .step .st{font-family:'Gowun Batang',serif;font-weight:700;font-size:clamp(18px,3.4vmin,40px);}
+  #s5 .step small{display:block;margin-top:1vmin;color:var(--sub);font-size:clamp(12px,1.9vmin,20px);line-height:1.5;}
+  #s5 .arrow{align-self:center;color:var(--green);font-size:clamp(20px,3.6vmin,40px);}
+  #s5 .teams{display:grid;grid-template-columns:1fr 1fr;gap:2.4vmin;}
+  #s5 .teams .box{flex-direction:row;align-items:baseline;gap:2.4vmin;padding:2.6vmin 3.4vmin;}
+
+  /* 6 직업 */
+  #s6 .twocol{align-content:stretch;}
+  #s6 .joblist{list-style:none;display:flex;flex-direction:column;}
+  #s6 .joblist li{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:1.7vmin 0;border-bottom:1px solid var(--line);
+    font-size:clamp(15px,2.5vmin,27px);
+  }
+  #s6 .joblist li:last-child{border-bottom:none;}
+  #s6 .joblist .role{color:var(--sub);font-size:clamp(12px,1.9vmin,20px);}
+  #s6 .joblist b{font-weight:700;}
+
+  /* 7 사례 */
+  #s7 .twocol{gap:3vmin;}
+  #s7 .case p{font-size:clamp(14px,2.25vmin,24px);line-height:1.75;color:var(--ink);}
+  #s7 .case p+p{margin-top:1.4vmin;}
+  #s7 .formula{
+    margin-top:3.2vmin;text-align:center;
+    font-family:'Gowun Batang',serif;font-weight:700;
+    font-size:clamp(20px,3.8vmin,44px);
+    padding:2.4vmin;background:var(--wash);border:1px solid #C9CFC2;
+  }
+  #s7 .formula em{font-style:normal;color:var(--green);}
+
+  /* 9 로드맵 */
+  #s9 .timeline{display:flex;flex-direction:column;flex:1;justify-content:center;}
+  #s9 .phase{
+    display:grid;grid-template-columns:12ch 1fr auto;gap:3vmin;align-items:baseline;
+    padding:2.2vmin 0;border-bottom:1px solid var(--line);
+  }
+  #s9 .phase:last-child{border-bottom:none;}
+  #s9 .wk{font-weight:700;color:var(--green);font-size:clamp(14px,2.3vmin,25px);letter-spacing:.04em;}
+  #s9 .ph{font-size:clamp(17px,2.9vmin,33px);font-weight:700;}
+  #s9 .ph small{display:block;font-weight:400;color:var(--sub);font-size:clamp(12px,1.9vmin,21px);margin-top:.4vmin;line-height:1.55;}
+  #s9 .badge{
+    font-size:clamp(11px,1.7vmin,18px);font-weight:700;color:var(--paper);
+    background:var(--green);padding:.35em 1em;border-radius:2em;white-space:nowrap;
+  }
+  #s9 .badge.soft{background:transparent;color:var(--green);border:1px solid var(--green);}
+
+  /* 13 Q&A */
+  #s13{justify-content:center;}
+  #s13 .q{font-family:'Gowun Batang',serif;font-size:clamp(26px,5.4vmin,64px);font-weight:700;line-height:1.4;color:var(--sub);}
+  #s13 .answers{margin-top:4.5vmin;display:flex;flex-direction:column;gap:2.6vmin;}
+  #s13 .ans{
+    padding-left:4vmin;border-left:3px solid var(--green);
+    font-size:clamp(17px,3vmin,34px);font-weight:700;line-height:1.55;
+  }
+  #s13 .ans small{display:block;font-weight:400;color:var(--sub);font-size:clamp(13px,2.1vmin,23px);margin-top:.5vmin;}
+
+  /* 14 활동 */
+  #s14 .prompt{
+    background:var(--wash);border:1px solid #C9CFC2;
+    padding:4vmin 4.5vmin;margin-bottom:3vmin;
+  }
+  #s14 .prompt .serif{font-size:clamp(24px,4.8vmin,56px);font-weight:700;line-height:1.45;}
+  #s14 .ex{display:flex;flex-direction:column;gap:1.2vmin;font-size:clamp(14px,2.3vmin,25px);color:var(--sub);line-height:1.6;}
+  #s14 .ex b{color:var(--ink);font-weight:700;}
+
+  /* 15 마무리 */
+  #s15{justify-content:center;}
+  #s15 .big{font-family:'Gowun Batang',serif;font-size:clamp(26px,5.2vmin,62px);font-weight:700;line-height:1.5;}
+  #s15 .next{margin-top:5vmin;font-size:clamp(15px,2.5vmin,27px);color:var(--sub);}
+  #s15 .next b{color:var(--green);}
+
+  /* ---------- 내비게이션 ---------- */
+  .hud{
+    position:fixed;bottom:1.6vmin;left:50%;transform:translateX(-50%);
+    display:flex;gap:1.2vmin;align-items:center;z-index:50;
+  }
+  .hud button{
+    font-family:'IBM Plex Sans KR';font-weight:500;font-size:clamp(12px,1.7vmin,16px);
+    background:var(--paper);border:1px solid var(--line);border-radius:2em;
+    padding:.5em 1.3em;cursor:pointer;color:var(--ink);
+    box-shadow:0 2px 8px rgba(35,40,31,.12);
+  }
+  .hud button:hover{border-color:var(--green);color:var(--green);}
+  .hud button:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
+  .hud .counter{font-weight:700;font-size:clamp(12px,1.7vmin,16px);color:var(--sub);min-width:5.5em;text-align:center;}
+
+  .notes{
+    position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;
+    background:var(--ink);color:#EDEBE4;border-top:3px solid var(--green);
+    padding:2.2vmin 3.5vmin 6.5vmin;font-size:clamp(13px,2vmin,19px);line-height:1.7;
+    display:none;z-index:40;
+  }
+  .notes.show{display:block;}
+  .notes b{color:#9FC3AC;}
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- 1 표지 -->
+  <section class="slide" id="s1">
+    <div class="kind">자유학기 주제선택 프로그램</div>
+    <h1 class="serif">스포츠 영상·웹툰 제작</h1>
+    <div class="rule"></div>
+    <div class="meta">
+      제1차시 · 오리엔테이션<br>
+      한 학기 17차시 프로젝트 수업
+    </div>
+    <template class="note">출석은 슬라이드를 띄우기 전에. "설명부터 드리면 재미가 없으니, 먼저 하나 보고 시작하겠습니다"로 다음 장 연결.</template>
+  </section>
+
+  <!-- 2 훅 -->
+  <section class="slide" id="s2">
+    <div class="head"><span class="label">먼저, 함께 보겠습니다</span><span class="no">02 / 15</span></div>
+    <div class="mediabox">
+      <div class="play"></div>
+      <div class="hint">[ 샘플 영상 · 웹툰 자리 ]</div>
+    </div>
+    <p class="foot">17주 뒤, 이 자리에는 <b>여러분이 만든 작품</b>이 올라옵니다.</p>
+    <template class="note">샘플은 <b>30초~1분</b> 이내. 반응이 조용해도 "지금은 '내가 할 수 있을까' 싶을 겁니다. 그 이야기를 오늘 드리겠습니다"로 연결.</template>
+  </section>
+
+  <!-- 3 자유학기제 -->
+  <section class="slide" id="s3">
+    <div class="head"><span class="label">자유학기제</span><span class="no">03 / 15</span></div>
+    <div class="q">이번 학기에는 왜<br>시험이 없을까요?</div>
+    <div class="a">
+      <div class="big"><u class="hl">실패해도 괜찮은 시간</u>을 주기 위해서입니다.</div>
+      <p>처음 해 보고, 잘 안 되고, 다시 해 보는 것이 이번 학기의 목적입니다.
+      특히 이 수업은 '만드는' 수업이라, 처음부터 잘하는 사람은 없습니다.</p>
+    </div>
+    <template class="note">먼저 학생들 대답을 몇 개 받기. 가벼운 답이 나와도 웃으며 받아주기. 이 장에서 기억시킬 문장은 <b>"실패해도 괜찮은 시간"</b> 하나.</template>
+  </section>
+
+  <!-- 4 주제선택 -->
+  <section class="slide" id="s4">
+    <div class="head"><span class="label">주제선택 활동</span><span class="no">04 / 15</span></div>
+    <h2 class="serif">체육 시간과는 <em>무엇이 다를까요?</em></h2>
+    <div class="twocol">
+      <div class="box">
+        <span class="cap">체육 시간</span>
+        <span class="bt">스포츠를 몸으로 합니다</span>
+        <span class="bd">달리고, 던지고, 경기합니다. 시간이 정해져 있어 그 이상은 하기 어렵습니다.</span>
+      </div>
+      <div class="box tint">
+        <span class="cap">이 수업 — 주제선택</span>
+        <span class="bt">스포츠를 콘텐츠로 만듭니다</span>
+        <span class="bd">찍고, 그리고, 이야기로 만듭니다. 하나의 주제를 한 학기 동안 깊이 있게 다루는 시간입니다.</span>
+      </div>
+    </div>
+    <p class="foot">자유학기 활동은 <b>진로탐색</b>과 <b>주제선택</b> 두 가지이며, 이 수업은 주제선택에 해당합니다.</p>
+    <template class="note">"체육을 한 시간 더 하는 수업 아닌가요?"라는 속 질문에 대한 선제 답변. 주제선택 = 교과에서 확장된 주제를 깊게 다루는 프로젝트라는 점을 강조.</template>
+  </section>
+
+  <!-- 5 만드는 것 -->
+  <section class="slide" id="s5">
+    <div class="head"><span class="label">이 수업에서 만드는 것</span><span class="no">05 / 15</span></div>
+    <h2 class="serif">무엇을 고르든, <em>거치는 길은 같습니다</em></h2>
+    <div class="flow">
+      <div class="step"><span class="st">스토리</span><small>이야기를 만듭니다</small></div>
+      <div class="arrow">→</div>
+      <div class="step core"><span class="st">스토리보드</span><small>장면을 나누고<br>설계도를 그립니다</small></div>
+      <div class="arrow">→</div>
+      <div class="step"><span class="st">제작</span><small>여기서 두 팀으로<br>나뉩니다</small></div>
+    </div>
+    <div class="teams">
+      <div class="box"><span class="cap">영상</span><span class="bd">촬영 → 편집 → 자막</span></div>
+      <div class="box"><span class="cap">웹툰</span><span class="bd">작화 → 채색 → 글자 넣기</span></div>
+    </div>
+    <p class="foot">촬영과 그림보다 먼저 <b>이야기</b>입니다. 이야기가 좋으면, 그림이 서툴러도 사람들은 봅니다.</p>
+    <template class="note">영상/웹툰 선택 방식(개인/모둠)은 아직 미정 — "정해지는 대로 안내하겠습니다"로만. 확정되면 이 장에서 안내.</template>
+  </section>
+
+  <!-- 6 직업 -->
+  <section class="slide" id="s6">
+    <div class="head"><span class="label">진로와의 연결</span><span class="no">06 / 15</span></div>
+    <h2 class="serif">작품 하나에 <em>직업이 몇 개</em> 숨어 있을까요?</h2>
+    <div class="twocol">
+      <div class="box">
+        <span class="cap">영상 한 편</span>
+        <ul class="joblist">
+          <li><b>PD</b><span class="role">기획</span></li>
+          <li><b>촬영감독</b><span class="role">촬영</span></li>
+          <li><b>영상 편집자</b><span class="role">편집</span></li>
+          <li><b>모션그래퍼</b><span class="role">자막·그래픽</span></li>
+        </ul>
+      </div>
+      <div class="box">
+        <span class="cap">웹툰 한 편</span>
+        <ul class="joblist">
+          <li><b>스토리 작가</b><span class="role">이야기</span></li>
+          <li><b>콘티 작가</b><span class="role">장면 설계</span></li>
+          <li><b>작화가</b><span class="role">그림</span></li>
+          <li><b>채색·식자 담당</b><span class="role">색과 글자</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot">이번 학기, 이 역할을 <b>모두 직접 경험합니다</b>. 직업을 책으로 배우는 것이 아니라, 한 번씩 살아보는 것입니다.</p>
+    <template class="note">먼저 추측을 받아보기. "몇 명이 필요할까요?" 핵심 문장은 "직업을 한 번씩 살아본다".</template>
+  </section>
+
+  <!-- 7 사례 -->
+  <section class="slide" id="s7">
+    <div class="head"><span class="label">실제 사례</span><span class="no">07 / 15</span></div>
+    <div class="twocol">
+      <div class="box case">
+        <span class="cap">웹툰 — 『가비지타임』 2사장 작가</span>
+        <p>농구를 가장 좋아하던 애니메이션 전공 대학생이었습니다.
+        부산의 한 고등학교 농구부 실화를 알게 되자, 감독님께 직접 연락해 취재를 시작했습니다.</p>
+        <p>2017년 공모전에서는 <b>8강에서 탈락</b>했고, 연재 초기에는 인기도 없었습니다.
+        그러나 계속 그렸고, 지금은 한국 농구 웹툰을 대표하는 작품이 되었습니다.</p>
+      </div>
+      <div class="box case">
+        <span class="cap">영상 — 축구 채널 '슛포러브'</span>
+        <p>축구가 좋아서 영상을 만들던 사람들이 시작한 채널입니다.</p>
+        <p>지금은 구독자 <b>100만 명이 넘는</b>, 직원들에게 월급을 주는
+        스포츠 콘텐츠 회사로 성장했습니다.</p>
+      </div>
+    </div>
+    <div class="formula">좋아하는 것 <em>+</em> 만드는 기술 <em>=</em> 직업</div>
+    <template class="note">"여러분은 스포츠를 좋아해서 이 교실에 왔고, 만드는 기술은 이번 학기에 배웁니다." 8강 탈락 이야기를 3장의 '실패해도 괜찮은 시간'과 연결. 웹툰 산업은 2024년 기준 약 <b>2조 원 규모</b>로 일본·미국에 수출 — 필요시 언급.</template>
+  </section>
+
+  <!-- 8 남는 것 -->
+  <section class="slide" id="s8">
+    <div class="head"><span class="label">솔직한 이야기</span><span class="no">08 / 15</span></div>
+    <h2 class="serif">작가가 되지 않아도, <em>남는 것이 있습니다</em></h2>
+    <div class="items">
+      <div class="item"><span class="n">하나</span><div><div class="t">기획하는 힘</div><div class="d">무엇을 만들지 스스로 정하는 능력</div></div></div>
+      <div class="item"><span class="n">둘</span><div><div class="t">만들어 내는 힘</div><div class="d">머릿속 생각을 실제 결과물로 옮기는 능력</div></div></div>
+      <div class="item"><span class="n">셋</span><div><div class="t">마감을 지키는 힘</div><div class="d">정한 날짜까지 끝까지 해내는 능력</div></div></div>
+      <div class="item"><span class="n">넷</span><div><div class="t">발표하는 힘</div><div class="d">내가 만든 것을 다른 사람 앞에 내놓는 용기</div></div></div>
+    </div>
+    <p class="foot">이 네 가지는 <b>어떤 직업을 갖더라도</b> 쓰는 능력입니다.</p>
+    <template class="note">스포츠·영상에 큰 관심 없이 배정된 학생을 위한 장. "괜찮습니다. 그래도 남는 것이 있습니다"라는 톤으로.</template>
+  </section>
+
+  <!-- 9 로드맵 -->
+  <section class="slide" id="s9">
+    <div class="head"><span class="label">한 학기의 흐름</span><span class="no">09 / 15</span></div>
+    <div class="timeline">
+      <div class="phase"><span class="wk">1 – 2주</span><div class="ph">보는 눈 기르기<small>잘 만든 콘텐츠를 함께 분석합니다</small></div><span class="badge soft">전원 공통</span></div>
+      <div class="phase"><span class="wk">3 – 5주</span><div class="ph">스토리 만들기<small>소재 찾기 · 인물 · 시놉시스 작성</small></div><span class="badge">시놉시스 마감</span></div>
+      <div class="phase"><span class="wk">6 – 8주</span><div class="ph">스토리보드 제작<small>장면 나누기 · 구도 · 연출 계획</small></div><span class="badge soft">전원 공통</span></div>
+      <div class="phase"><span class="wk">9 – 14주</span><div class="ph">본 제작<small>영상: 촬영·편집 &nbsp;/&nbsp; 웹툰: 작화·채색</small></div><span class="badge soft">팀별 진행</span></div>
+      <div class="phase"><span class="wk">15 – 16주</span><div class="ph">완성과 상호 피드백<small>서로의 작품을 보고 다듬습니다</small></div><span class="badge soft">팀별 진행</span></div>
+      <div class="phase"><span class="wk">17주</span><div class="ph">상영회<small>완성작을 함께 감상합니다</small></div><span class="badge">최종 발표</span></div>
+    </div>
+    <p class="foot">시험 대신 <b>이 과정 자체가 평가</b>이며, 참여한 만큼 학교생활기록부에 기록됩니다.</p>
+    <template class="note">'시놉시스 마감'을 지금 예고해 두면 3~5주차에 늘어질 때 근거가 됨. 세부 차시는 외울 필요 없고 큰 흐름만 안내.</template>
+  </section>
+
+  <!-- 10 마음가짐 -->
+  <section class="slide" id="s10">
+    <div class="head"><span class="label">부탁드리는 것</span><span class="no">10 / 15</span></div>
+    <h2 class="serif">마음가짐, <em>세 가지</em>면 충분합니다</h2>
+    <div class="items">
+      <div class="item"><span class="n">하나</span><div><div class="t">잘 만드는 것보다, 끝까지 만드는 것</div><div class="d">중간에 다시 시작하고 싶은 순간이 반드시 옵니다. 그때 완성까지 가는 것이 실력입니다.</div></div></div>
+      <div class="item"><span class="n">둘</span><div><div class="t">친구와 비교하지 않는 것</div><div class="d">이 수업에는 등수가 없습니다. 어제의 내 결과물과만 비교합니다.</div></div></div>
+      <div class="item"><span class="n">셋</span><div><div class="t">해 보기 전에 "못해요"라고 하지 않는 것</div><div class="d">해 보고 나서 "어렵습니다"는 괜찮습니다. 그것은 도와드릴 수 있습니다.</div></div></div>
+    </div>
+    <template class="note">하나=완주율, 둘=그림 실력 격차로 인한 위축 방지, 셋=자유학기 도전 정신의 번역.</template>
+  </section>
+
+  <!-- 11 약속 -->
+  <section class="slide" id="s11">
+    <div class="head"><span class="label">공평하게</span><span class="no">11 / 15</span></div>
+    <h2 class="serif">그래서, <em>선생님도 약속합니다</em></h2>
+    <div class="items">
+      <div class="item"><span class="n">하나</span><div><div class="t">여러분의 작품을 대충 보지 않겠습니다</div><div class="d">모든 결과물을 끝까지 봅니다.</div></div></div>
+      <div class="item"><span class="n">둘</span><div><div class="t">'못한 것'을 꾸짖지 않겠습니다</div><div class="d">'하지 않은 것'과는 구분하겠습니다.</div></div></div>
+      <div class="item"><span class="n">셋</span><div><div class="t">상영회는 제대로 열겠습니다</div><div class="d">애써 만든 작품이 아깝지 않도록 하겠습니다.</div></div></div>
+    </div>
+    <template class="note">학생에게만 요구하면 일방적. 상호 약속으로 만들어야 앞 장(마음가짐)의 무게가 산다.</template>
+  </section>
+
+  <!-- 12 규칙 -->
+  <section class="slide" id="s12">
+    <div class="head"><span class="label">우리 반의 규칙</span><span class="no">12 / 15</span></div>
+    <h2 class="serif">규칙도 <em>세 가지</em>입니다</h2>
+    <div class="items">
+      <div class="item"><span class="n">하나</span><div><div class="t">휴대전화는 도구입니다</div><div class="d">이 수업에서 휴대전화는 카메라이자 편집기입니다. 사용하는 시간에는 마음껏, 그 외에는 넣어 둡니다.</div></div></div>
+      <div class="item"><span class="n">둘</span><div><div class="t">촬영 전에, 반드시 동의를 구합니다</div><div class="d">친구의 얼굴이 나오는 장면은 그 친구의 허락 없이 사용할 수 없습니다. 나에게 재미있는 것이 그 친구에게는 아닐 수 있습니다. 이것은 수업 규칙이기 전에 법입니다.</div></div></div>
+      <div class="item"><span class="n">셋</span><div><div class="t">마감은 마감입니다</div><div class="d">콘텐츠 세계에서 가장 중요한 규칙입니다. 마감을 지키지 못하는 작가는, 아무리 잘 그려도 일을 맡기 어렵습니다.</div></div></div>
+    </div>
+    <template class="note">둘째(초상권·동의)는 사이버폭력 예방과 직결 — 학기 초에 분명히 해 둘 것.</template>
+  </section>
+
+  <!-- 13 Q&A -->
+  <section class="slide" id="s13">
+    <div class="head"><span class="label">미리 답해 드립니다</span><span class="no">13 / 15</span></div>
+    <div class="q">"저는 그림을 못 그리는데요…"</div>
+    <div class="answers">
+      <div class="ans">이 수업은 그림 실력 수업이 아닙니다.<small>이야기가 있다면, 단순한 그림으로도 웹툰은 완성됩니다.</small></div>
+      <div class="ans">영상팀은 그림을 한 장도 그리지 않습니다.<small>스토리보드는 네모와 화살표만으로도 충분합니다.</small></div>
+      <div class="ans">가비지타임 작가도, 처음에는 공모전 8강 탈락이었습니다.</div>
+    </div>
+    <template class="note">불안 해소 장. 여기서 교실 공기가 한 번 풀리면 성공.</template>
+  </section>
+
+  <!-- 14 활동 -->
+  <section class="slide" id="s14">
+    <div class="head"><span class="label">오늘의 첫 기획</span><span class="no">14 / 15</span></div>
+    <div class="prompt">
+      <div class="serif">우리 학교 체육 명장면,<br>하나만 적어 봅시다.</div>
+    </div>
+    <div class="ex">
+      <div><b>포스트잇 한 장 · 한 줄 · 이름은 쓰지 않습니다</b></div>
+      <div>예) 피구공을 피하다가 벽에 붙어 버린 친구</div>
+      <div>예) 자유투가 들어가는 순간 울린 수업 종</div>
+      <div>직접 본 것, 겪은 것, 상상한 것 모두 좋습니다.</div>
+    </div>
+    <p class="foot">이것이 다음 시간부터 사용할 <b>이야기의 재료</b>입니다. 방금 여러분은 첫 기획을 했습니다.</p>
+    <template class="note">걷어서 재미있는 것 위주로 몇 개 읽어주기. 포스트잇은 보관 → 3~5주차 스토리 수업의 실제 재료.</template>
+  </section>
+
+  <!-- 15 마무리 -->
+  <section class="slide" id="s15">
+    <div class="head"><span class="label">다음 시간</span><span class="no">15 / 15</span></div>
+    <div class="big">숙제는 없습니다. 다만 하나 —<br>이번 주에 본 영상이나 웹툰 중<br><u class="hl">가장 재미있었던 것 하나</u>를 기억해 오세요.</div>
+    <p class="next">왜 재미있었는지는, 다음 시간에 함께 찾아보겠습니다. → <b>제2차시. 보는 눈 기르기</b></p>
+    <template class="note">깔끔하게 마치기. 이 '숙제 아닌 숙제'가 다음 차시와의 연결 고리.</template>
+  </section>
+
+</div>
+
+<div class="hud">
+  <button id="prev" aria-label="이전 슬라이드">← 이전</button>
+  <div class="counter" id="counter">1 / 15</div>
+  <button id="next" aria-label="다음 슬라이드">다음 →</button>
+  <button id="noteBtn" aria-label="발표자 노트 켜기/끄기">노트 (N)</button>
+</div>
+
+<div class="notes" id="notes"></div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const counter=document.getElementById('counter');
+  const notes=document.getElementById('notes');
+  let i=0,showNotes=false;
+
+  function render(){
+    slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));
+    counter.textContent=(i+1)+' / '+slides.length;
+    const t=slides[i].querySelector('template.note');
+    notes.innerHTML=t?('<b>발표자 노트 · '+(i+1)+'장</b><br>'+t.innerHTML):'';
+    notes.classList.toggle('show',showNotes && !!t);
+  }
+  function go(d){i=Math.min(slides.length-1,Math.max(0,i+d));render();}
+
+  document.getElementById('prev').onclick=()=>go(-1);
+  document.getElementById('next').onclick=()=>go(1);
+  document.getElementById('noteBtn').onclick=()=>{showNotes=!showNotes;render();};
+
+  addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')go(1);
+    else if(e.key==='ArrowLeft'||e.key==='PageUp')go(-1);
+    else if(e.key.toLowerCase()==='n'){showNotes=!showNotes;render();}
+    else if(e.key==='Home'){i=0;render();}
+    else if(e.key==='End'){i=slides.length-1;render();}
+  });
+
+  let sx=null;
+  addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  addEventListener('touchend',e=>{
+    if(sx===null)return;
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>50)go(dx<0?1:-1);
+    sx=null;
+  },{passive:true});
+
+  render();
+</script>
+</body>
+</html>
